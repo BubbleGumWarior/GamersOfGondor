@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Grid, TextField, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import Background from "../assets/Landscape1.jpg"
@@ -42,7 +42,6 @@ const StyledForm = styled(Form)({
   
 
 const Login = () => {
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -57,8 +56,10 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:5000/login', { username, password });
             console.log(response.data);
+            localStorage.setItem('isLoggedIn', 'true');
         } catch (error) {
             console.error(error);
+            localStorage.setItem('isLoggedIn', 'false');
         }
     };
     return (
