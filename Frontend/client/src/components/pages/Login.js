@@ -1,8 +1,9 @@
-import React from 'react';
-import { Box, Grid, TextField, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, TextField, Button } from '@mui/material';
 import { styled } from '@mui/system';
-import Background from "../assets/Background.jpg"
+import Background from "../assets/Landscape1.jpg"
 import Logo from "../assets/Logo.jpg"
+import axios from 'axios';
 
 const Form = styled('form')({
   display: 'flex',
@@ -22,8 +23,8 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 const StyledImg = styled('img')({
-    width: '50%',
-    borderRadius: '50%',
+    width: '35%',
+    borderRadius: '30%',
     objectFit: 'cover',
 });
 
@@ -41,75 +42,100 @@ const StyledForm = styled(Form)({
   
 
 const Login = () => {
-  return (
-    <Root>
-        <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="stretch"
-            xs={6}
-        >
-            <StyledForm>
-                <StyledImg src={Logo} alt="Logo" />
-                <TextField 
-                    label="Username" 
-                    variant="outlined" 
-                    sx={{
-                        color: '#DAA520',
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                                borderColor: '#DAA520',
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    };
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+  
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/login', { username, password });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    return (
+        <Root>
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="stretch"
+                xs={10}
+                md={6}
+            >
+                <StyledForm>
+                    <StyledImg src={Logo} alt="Logo" />
+                    <TextField 
+                        label="Username" 
+                        variant="outlined" 
+                        sx={{
+                            color: '#FF8E00',
+                            width: { xs: '80%', md: '50%' },
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: '#FF8E00',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#FF8E00',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#FF8E00',
+                                },
                             },
-                            '&:hover fieldset': {
-                                borderColor: '#DAA520',
+                            '& .MuiFormLabel-root.Mui-focused': {
+                                color: '#FF8E00',
                             },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#DAA520',
+                        }}
+                        onChange={handleUsernameChange}
+                    />
+                    <TextField 
+                        label="Password" 
+                        variant="outlined" 
+                        type="password" 
+                        sx={{
+                            color: '#FF8E00',
+                            width: { xs: '80%', md: '50%' },
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: '#FF8E00',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#FF8E00',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#FF8E00',
+                                },
                             },
-                        },
-                        '& .MuiFormLabel-root.Mui-focused': {
-                            color: '#DAA520',
-                        },
-                    }}
-                />
-                <TextField 
-                    label="Password" 
-                    variant="outlined" 
-                    type="password" 
-                    sx={{
-                        color: '#DAA520',
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                                borderColor: '#DAA520',
+                            '& .MuiFormLabel-root.Mui-focused': {
+                                color: '#FF8E00',
                             },
-                            '&:hover fieldset': {
-                                borderColor: '#DAA520',
-                            },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#DAA520',
-                            },
-                        },
-                        '& .MuiFormLabel-root.Mui-focused': {
-                            color: '#DAA520',
-                        },
-                    }}
-                />
-                <Button 
-                    variant="contained" 
-                    type="submit" 
-                    style={{ 
-                        width: '100%', 
-                        background: 'linear-gradient(45deg, #DAA520 30%, #FFD700 90%)',
-                        color: 'black',
-                    }}
-                >
-                    Login
-                </Button >
-            </StyledForm>            
-        </Grid>
-    </Root>
-  );
+                        }}
+                        onChange={handlePasswordChange}
+                    />
+                    <Button 
+                        variant="contained" 
+                        type="submit" 
+                        style={{ 
+                            width: '50%', 
+                            background: 'linear-gradient(45deg, #FF8E00 30%, #FF5003 90%)',
+                            color: 'black',
+                        }}
+                        onClick={handleLogin}
+                    >
+                        Login
+                    </Button >
+                </StyledForm>            
+            </Grid>
+        </Root>
+    );
 };
 
 export default Login;
